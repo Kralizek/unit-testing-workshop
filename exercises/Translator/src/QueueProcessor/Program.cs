@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Amazon.S3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using QueueProcessor.Handlers;
 using Nybus;
 using Nybus.Configuration;
+using QueueProcessor.Messages;
+using Amazon.Translate;
+using QueueProcessor.Services;
 
 namespace QueueProcessor
 {
@@ -50,57 +54,34 @@ namespace QueueProcessor
                         rabbitMq.Configure(configuration => configuration.CommandQueueFactory = new StaticQueueFactory("QueueProcessor"));
                     });
 
-                    /* EVENTS */
-
-                    /* This will subscribe the event TestEvent to any IEventHandler<TestEvent> available */
-                    nybus.SubscribeToEvent<TestEvent>();
-
-                    /* This will subscribe the event TestEvent to an instance of TestEventHandler */
-                    // nybus.SubscribeToEvent<TestEvent, TestEventHandler>();
-
-                    /* This will subscribe the event TestEvent to the asynchronous delegate */
-                    // nybus.SubscribeToEvent<TestEvent>(async (dispatcher, eventContext) => { await DoSomethingAsync(); });
-
-                    /* This will subscribe the event TestEvent to the synchronous delegate */
-                    // nybus.SubscribeToEvent<TestEvent>((dispatcher, eventContext) => { DoSomething(); });
-
-
-                    /* COMMANDS */
-
-                    /* This will subscribe the command TestCommand to any ICommandHandler<TestCommand> available */
-                    nybus.SubscribeToCommand<TestCommand>();
-
-                    /* This will subscribe the command TestCommand to an instance of TestCommandHandler */
-                    // nybus.SubscribeToCommand<TestCommand, TestCommandHandler>();
-
-                    /* This will subscribe the command TestCommand to the asynchronous delegate */
-                    // nybus.SubscribeToCommand<TestCommand>(async (dispatcher, commandContext) => { await DoSomethingAsync(); });
-
-                    /* This will subscribe the command TestCommand to the synchronous delegate */
-                    // nybus.SubscribeToCommand<TestCommand>((dispatcher, commandContext) => { DoSomething(); });
+                    nybus.SubscribeToCommand<TranslateCommand>();
                 });
 
-                /* EVENTS */
+                services.AddCommandHandler<TranslateCommandHandler>();
+                services.AddDefaultAWSOptions(context.Configuration.GetAWSOptions("AWS"));
+                services.AddAWSService<IAmazonTranslate>();
+                services.AddAWSService<IAmazonS3>();
+                services.AddHttpClient();
 
-                /* This will register the event handler TestEventHandler as a handler for TestEvent */
-                // services.AddEventHandler<TestEvent, TestEventHandler>();
+                services.AddHttpClient<TranslateCommandHandler>();
 
-                /* This will register the event handler TestEventHandler as a handler for all supported events */
-                services.AddEventHandler<TestEventHandler>();
+                services.Configure<TranslateOptions>(context.Configuration.GetSection("Translator"));
 
+                /*
+                services.AddCommandHandler<ImprovedTranslateCommandHandler>();
+                services.AddSingleton<IFileDownloader, HttpClientFileDownloader>();
+                services.AddSingleton<ITextExtractor, HtmlTextExtractor>();
+                services.AddSingleton<ITranslator, AmazonTranslateTranslator>();
+                services.AddSingleton<ITranslationPersister, AmazonS3TranslationPersister>();
 
-                /* COMMANDS */
-
-                /* This will register the command handler TestCommandHandler as a handler for TestCommand */
-                // services.AddCommandHandler<TestCommand, TestCommandHandler>();
-
-                /* This will register the command handler TestCommandHandler as a handler for all supported Commands */
-                services.AddCommandHandler<TestCommandHandler>();
+                services.AddHttpClient<IFileDownloader, HttpClientFileDownloader>();
+                */
             });
 
             builder.ConfigureLogging((context, logging) =>
             {
                 logging.AddConfiguration(context.Configuration.GetSection("Logging"));
+                logging.AddAWSProvider(context.Configuration.GetAWSLoggingConfigSection());
                 logging.AddConsole();
             });
 
@@ -109,8 +90,4 @@ namespace QueueProcessor
             await host.RunAsync();
         }
     }
-
-    public class TestEvent : IEvent { }
-
-    public class TestCommand : ICommand { }
 }

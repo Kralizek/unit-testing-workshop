@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -11,11 +11,23 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.2.0" />
 
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
 
-    <PackageReference Include="Nybus" Version="1.5.0" />
-    <PackageReference Include="Nybus.Engine.RabbitMq" Version="1.5.0" />
-    <PackageReference Include="Nybus.Extensions.Hosting.HostedService" Version="1.5.0" />
+    <PackageReference Include="Nybus" Version="1.5.2" />
+    <PackageReference Include="Nybus.Engine.RabbitMq" Version="1.5.2" />
+    <PackageReference Include="Nybus.Extensions.Hosting.HostedService" Version="1.5.2" />
+
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.12" />
+
+    <PackageReference Include="Kralizek.Extensions.Logging" Version="2.0.1" />
+    <PackageReference Include="AWS.Logger.AspNetCore" Version="2.0.0" />
+
+    <PackageReference Include="AWSSDK.Translate" Version="3.3.100.2" />
+    <PackageReference Include="AWSSDK.S3" Version="3.3.104.30" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.100.1" />
   </ItemGroup>
 
   <ItemGroup>
