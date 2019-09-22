@@ -3,12 +3,10 @@ using Nybus;
 
 namespace QueueProcessor.Messages
 {
-    [Message("TranslatedEvent", "Examples")]
-    public class TranslatedEvent : IEvent
+    [Message("EducationTranslatedEvent", "Examples")]
+    public class EducationTranslatedEvent : IEvent
     {
         public int EducationId { get; set; }
-
-        public Language FromLanguage { get; set; }
 
         public Language ToLanguage { get; set; }
 

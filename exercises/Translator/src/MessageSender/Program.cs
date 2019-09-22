@@ -48,7 +48,7 @@ namespace MessageSender
         }
     }
 
-    [Message("TranslateCommand", "Examples")]
+    [Message("TranslateEducationCommand", "Examples")]
     public class TranslateCommand : ICommand
     {
         public int EducationId { get; set; }

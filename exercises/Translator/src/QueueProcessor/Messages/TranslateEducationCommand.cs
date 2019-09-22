@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Nybus;
+﻿using Nybus;
 
 namespace QueueProcessor.Messages
 {
-    [Message("TranslateCommand", "Examples")]
-    public class TranslateCommand : ICommand
+    [Message("TranslateEducationCommand", "Examples")]
+    public class TranslateEducationCommand : ICommand
     {
         public int EducationId { get; set; }
 
@@ -23,8 +20,6 @@ namespace QueueProcessor.Messages
         Finnish = 5,
         Danish = 6,
         French = 7,
-        Italian = 8,
-        Russian = 9,
-        ChineseSimplified = 10
+        Italian = 8
     }
 }

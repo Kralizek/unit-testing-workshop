@@ -7,7 +7,7 @@ using QueueProcessor.Messages;
 
 namespace QueueProcessor.Handlers
 {
-    public class ImprovedTranslateCommandHandler : ICommandHandler<TranslateCommand>
+    public class ImprovedTranslateCommandHandler : ICommandHandler<TranslateEducationCommand>
     {
         private readonly IEducationProfileDownloader _downloader;
         private readonly ITextExtractor _textExtractor;
@@ -22,13 +22,8 @@ namespace QueueProcessor.Handlers
             _persister = persister ?? throw new ArgumentNullException(nameof(persister));
         }
 
-        public async Task HandleAsync(IDispatcher dispatcher, ICommandContext<TranslateCommand> context)
+        public async Task HandleAsync(IDispatcher dispatcher, ICommandContext<TranslateEducationCommand> context)
         {
-            if (context.Command.ToLanguage == Language.ChineseSimplified)
-            {
-                throw new ArgumentOutOfRangeException(nameof(context.Command.ToLanguage), "Chinese not supported");
-            }
-
             var content = await _downloader.GetProfile(context.Command.EducationId);
 
             var contentToTranslate = _textExtractor.ExtractText(content);
@@ -45,7 +40,7 @@ namespace QueueProcessor.Handlers
 
             await _persister.PersistTranslations(fileKey, translations);
 
-            await dispatcher.RaiseEventAsync(new TranslatedEvent
+            await dispatcher.RaiseEventAsync(new EducationTranslatedEvent
             {
                 EducationId = context.Command.EducationId,
                 ToLanguage = context.Command.ToLanguage,
@@ -53,7 +48,7 @@ namespace QueueProcessor.Handlers
             });
         }
 
-        private string GenerateKey(TranslateCommand command)
+        private string GenerateKey(TranslateEducationCommand command)
         {
             var now = Clock.Default.Now;
 

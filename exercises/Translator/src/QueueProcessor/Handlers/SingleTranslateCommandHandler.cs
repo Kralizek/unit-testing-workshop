@@ -16,7 +16,7 @@ using QueueProcessor.Messages;
 
 namespace QueueProcessor.Handlers
 {
-    public class SingleTranslateCommandHandler : ICommandHandler<TranslateCommand>
+    public class SingleTranslateCommandHandler : ICommandHandler<TranslateEducationCommand>
     {
         private readonly HttpClient _http;
         private readonly IAmazonTranslate _translate;
@@ -33,14 +33,16 @@ namespace QueueProcessor.Handlers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task HandleAsync(IDispatcher dispatcher, ICommandContext<TranslateCommand> context)
+        public const string EducationProfileFormat = @"https://www.studentum.se/education/{0}";
+
+        public async Task HandleAsync(IDispatcher dispatcher, ICommandContext<TranslateEducationCommand> context)
         {
-            if (context.Command.ToLanguage == Language.ChineseSimplified)
+            if (context.Command.ToLanguage == Language.Italian)
             {
-                throw new ArgumentOutOfRangeException(nameof(context.Command.ToLanguage), "Chinese not supported");
+                throw new ArgumentOutOfRangeException(nameof(context.Command.ToLanguage), "Italian not supported");
             }
 
-            var uriToTranslate = new Uri($@"https://www.studentum.se/education/{context.Command.EducationId}");
+            var uriToTranslate = new Uri(string.Format(EducationProfileFormat, context.Command.EducationId));
 
             var content = await GetContent(uriToTranslate);
 
@@ -60,7 +62,7 @@ namespace QueueProcessor.Handlers
 
             await StoreTranslations(fileKey, translations);
 
-            await dispatcher.RaiseEventAsync(new TranslatedEvent
+            await dispatcher.RaiseEventAsync(new EducationTranslatedEvent
             {
                 EducationId = context.Command.EducationId,
                 ToLanguage = context.Command.ToLanguage,
@@ -123,7 +125,6 @@ namespace QueueProcessor.Handlers
             [Language.German] = "de",
             [Language.Italian] = "it",
             [Language.Norwegian] = "no",
-            [Language.Russian] = "ru",
             [Language.Swedish] = "sv"
         };
 

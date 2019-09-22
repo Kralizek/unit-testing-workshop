@@ -7,7 +7,8 @@ using Microsoft.Extensions.Logging;
 using QueueProcessor.Handlers;
 using QueueProcessor.Messages;
 
-namespace QueueProcessor.Services {
+namespace QueueProcessor.Services
+{
     public class AmazonTranslateTranslator : ITranslator
     {
         private readonly IAmazonTranslate _translate;
@@ -21,6 +22,11 @@ namespace QueueProcessor.Services {
 
         public async Task<string> TranslateText(string textToTranslate, Language toLanguage)
         {
+            if (toLanguage == Language.Italian)
+            {
+                throw new ArgumentOutOfRangeException(nameof(toLanguage), "Italian not supported");
+            }
+
             _logger.LogInformation("Translating to {LANGUAGE}", toLanguage);
 
             var response = await _translate.TranslateTextAsync(new TranslateTextRequest
@@ -44,9 +50,7 @@ namespace QueueProcessor.Services {
             [Language.Finnish] = "fi",
             [Language.French] = "fr",
             [Language.German] = "de",
-            [Language.Italian] = "it",
             [Language.Norwegian] = "no",
-            [Language.Russian] = "ru",
             [Language.Swedish] = "sv"
         };
     }

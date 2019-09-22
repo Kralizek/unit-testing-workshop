@@ -55,7 +55,7 @@ namespace QueueProcessor
                         rabbitMq.Configure(configuration => configuration.CommandQueueFactory = new StaticQueueFactory("QueueProcessor"));
                     });
 
-                    nybus.SubscribeToCommand<TranslateCommand>();
+                    nybus.SubscribeToCommand<TranslateEducationCommand>();
                 });
 
                 
