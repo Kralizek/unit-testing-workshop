@@ -5,16 +5,16 @@ using Nybus;
 using Nybus.Utils;
 using QueueProcessor.Messages;
 
-namespace QueueProcessor
+namespace QueueProcessor.Handlers
 {
     public class ImprovedTranslateCommandHandler : ICommandHandler<TranslateCommand>
     {
-        private readonly IFileDownloader _downloader;
+        private readonly IEducationProfileDownloader _downloader;
         private readonly ITextExtractor _textExtractor;
         private readonly ITranslator _translator;
         private readonly ITranslationPersister _persister;
 
-        public ImprovedTranslateCommandHandler(IFileDownloader downloader, ITextExtractor textExtractor, ITranslator translator, ITranslationPersister persister)
+        public ImprovedTranslateCommandHandler(IEducationProfileDownloader downloader, ITextExtractor textExtractor, ITranslator translator, ITranslationPersister persister)
         {
             _downloader = downloader ?? throw new ArgumentNullException(nameof(downloader));
             _textExtractor = textExtractor ?? throw new ArgumentNullException(nameof(textExtractor));
@@ -29,9 +29,7 @@ namespace QueueProcessor
                 throw new ArgumentOutOfRangeException(nameof(context.Command.ToLanguage), "Chinese not supported");
             }
 
-            var uriToTranslate = new Uri($@"https://www.studentum.se/education/{context.Command.EducationId}");
-
-            var content = await _downloader.GetContent(uriToTranslate);
+            var content = await _downloader.GetProfile(context.Command.EducationId);
 
             var contentToTranslate = _textExtractor.ExtractText(content);
 
@@ -64,9 +62,9 @@ namespace QueueProcessor
         }
     }
 
-    public interface IFileDownloader
+    public interface IEducationProfileDownloader
     {
-        Task<string> GetContent(Uri target);
+        Task<string> GetProfile(int educationId);
     }
 
     public interface ITextExtractor

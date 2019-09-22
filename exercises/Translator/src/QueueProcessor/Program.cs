@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Amazon.S3;
 using Microsoft.Extensions.Configuration;
@@ -57,25 +58,24 @@ namespace QueueProcessor
                     nybus.SubscribeToCommand<TranslateCommand>();
                 });
 
-                services.AddCommandHandler<TranslateCommandHandler>();
+                //services.AddCommandHandler<SingleTranslateCommandHandler>();
                 services.AddDefaultAWSOptions(context.Configuration.GetAWSOptions("AWS"));
                 services.AddAWSService<IAmazonTranslate>();
                 services.AddAWSService<IAmazonS3>();
                 services.AddHttpClient();
-
-                services.AddHttpClient<TranslateCommandHandler>();
+                services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient());
 
                 services.Configure<TranslateOptions>(context.Configuration.GetSection("Translator"));
 
-                /*
+                
                 services.AddCommandHandler<ImprovedTranslateCommandHandler>();
-                services.AddSingleton<IFileDownloader, HttpClientFileDownloader>();
+                services.AddSingleton<IEducationProfileDownloader, HttpClientEducationProfileDownloader>();
                 services.AddSingleton<ITextExtractor, HtmlTextExtractor>();
                 services.AddSingleton<ITranslator, AmazonTranslateTranslator>();
                 services.AddSingleton<ITranslationPersister, AmazonS3TranslationPersister>();
 
-                services.AddHttpClient<IFileDownloader, HttpClientFileDownloader>();
-                */
+                services.AddHttpClient<IEducationProfileDownloader, HttpClientEducationProfileDownloader>();
+                
             });
 
             builder.ConfigureLogging((context, logging) =>

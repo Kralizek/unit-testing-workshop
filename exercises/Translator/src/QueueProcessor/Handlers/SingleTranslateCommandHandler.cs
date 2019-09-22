@@ -16,15 +16,15 @@ using QueueProcessor.Messages;
 
 namespace QueueProcessor.Handlers
 {
-    public class TranslateCommandHandler : ICommandHandler<TranslateCommand>
+    public class SingleTranslateCommandHandler : ICommandHandler<TranslateCommand>
     {
         private readonly HttpClient _http;
         private readonly IAmazonTranslate _translate;
         private readonly IAmazonS3 _s3;
         private readonly TranslateOptions _options;
-        private readonly ILogger<TranslateCommandHandler> _logger;
+        private readonly ILogger<SingleTranslateCommandHandler> _logger;
 
-        public TranslateCommandHandler(HttpClient http, IAmazonTranslate translate, IAmazonS3 s3, IOptions<TranslateOptions> options, ILogger<TranslateCommandHandler> logger)
+        public SingleTranslateCommandHandler(HttpClient http, IAmazonTranslate translate, IAmazonS3 s3, IOptions<TranslateOptions> options, ILogger<SingleTranslateCommandHandler> logger)
         {
             _http = http ?? throw new ArgumentNullException(nameof(http));
             _translate = translate ?? throw new ArgumentNullException(nameof(translate));

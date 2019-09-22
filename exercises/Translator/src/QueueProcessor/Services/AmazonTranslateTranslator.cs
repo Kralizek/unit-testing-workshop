@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Amazon.Translate;
 using Amazon.Translate.Model;
 using Microsoft.Extensions.Logging;
+using QueueProcessor.Handlers;
 using QueueProcessor.Messages;
 
 namespace QueueProcessor.Services {

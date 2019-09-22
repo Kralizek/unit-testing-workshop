@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8B22F198
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.QueueProcessor", "tests\Tests.QueueProcessor\Tests.QueueProcessor.csproj", "{E1E67A48-2B70-4744-BFF3-24E803CDA958}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageSender", "src\MessageSender\MessageSender.csproj", "{855589AA-0554-43B4-8B8A-C463AAD60F75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,9 +50,22 @@ Global
 		{E1E67A48-2B70-4744-BFF3-24E803CDA958}.Release|x64.Build.0 = Release|Any CPU
 		{E1E67A48-2B70-4744-BFF3-24E803CDA958}.Release|x86.ActiveCfg = Release|Any CPU
 		{E1E67A48-2B70-4744-BFF3-24E803CDA958}.Release|x86.Build.0 = Release|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Debug|x64.Build.0 = Debug|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Debug|x86.Build.0 = Debug|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Release|x64.ActiveCfg = Release|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Release|x64.Build.0 = Release|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Release|x86.ActiveCfg = Release|Any CPU
+		{855589AA-0554-43B4-8B8A-C463AAD60F75}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{01151899-E607-49A3-8646-81D5189DCF74} = {02963F13-2FCC-4B77-8A72-8CF0D8D4EF2A}
 		{E1E67A48-2B70-4744-BFF3-24E803CDA958} = {8B22F198-C1FE-4932-AF8E-70583345335F}
+		{855589AA-0554-43B4-8B8A-C463AAD60F75} = {02963F13-2FCC-4B77-8A72-8CF0D8D4EF2A}
 	EndGlobalSection
 EndGlobal
