@@ -58,17 +58,20 @@ namespace QueueProcessor
                     nybus.SubscribeToCommand<TranslateCommand>();
                 });
 
-                //services.AddCommandHandler<SingleTranslateCommandHandler>();
+                
                 services.AddDefaultAWSOptions(context.Configuration.GetAWSOptions("AWS"));
                 services.AddAWSService<IAmazonTranslate>();
                 services.AddAWSService<IAmazonS3>();
+
                 services.AddHttpClient();
-                services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient());
+                //services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient());
 
                 services.Configure<TranslateOptions>(context.Configuration.GetSection("Translator"));
 
+                //services.AddCommandHandler<SingleTranslateCommandHandler>();
                 
                 services.AddCommandHandler<ImprovedTranslateCommandHandler>();
+
                 services.AddSingleton<IEducationProfileDownloader, HttpClientEducationProfileDownloader>();
                 services.AddSingleton<ITextExtractor, HtmlTextExtractor>();
                 services.AddSingleton<ITranslator, AmazonTranslateTranslator>();
