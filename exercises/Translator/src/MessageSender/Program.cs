@@ -38,10 +38,14 @@ namespace MessageSender
 
             await host.StartAsync();
 
+            int educationId = int.Parse(args[0]);
+
+            Console.WriteLine($"Queueing translation to English for education: {educationId}");
+
             await host.Bus.InvokeCommandAsync(new TranslateCommand
             {
                 ToLanguage = Language.English,
-                EducationId = 294571
+                EducationId = educationId
             });
 
             await host.StopAsync();
