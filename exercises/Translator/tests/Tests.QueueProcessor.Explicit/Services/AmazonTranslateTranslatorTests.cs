@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Amazon.Translate;
 using Amazon.Translate.Model;
 using AutoFixture;
-using AutoFixture.AutoMoq;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -50,12 +49,14 @@ namespace Tests.Explicit.Services
             // skips the test if the condition is not matched
             Assume.That(toLanguage, Is.Not.EqualTo(Language.Italian));
 
-            _mockTranslate.Setup(p => p.TranslateTextAsync(It.IsAny<TranslateTextRequest>(), It.IsAny<CancellationToken>())).ReturnsUsingFixture(_fixture);
+            var response = _fixture.Create<TranslateTextResponse>();
+
+            _mockTranslate.Setup(p => p.TranslateTextAsync(It.IsAny<TranslateTextRequest>(), It.IsAny<CancellationToken>())).ReturnsAsync(response);
 
             var sut = CreateSystemUnderTest();
 
             var textToTranslate = _fixture.Create<string>();
-            
+
             await sut.TranslateText(textToTranslate, toLanguage);
 
             _mockTranslate.Verify(p => p.TranslateTextAsync(It.Is<TranslateTextRequest>(ttr => ttr.Text == textToTranslate && ttr.SourceLanguageCode == "sv" && ttr.TargetLanguageCode == sut.GetLanguageCode(toLanguage)), It.IsAny<CancellationToken>()));
