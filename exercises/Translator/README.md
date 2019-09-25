@@ -96,16 +96,16 @@ Googling and Stack Overflow are fine too, but I am not sure you'll find much abo
 ### Assignement 1: testing without integrations
 
 In the `Tests.QueueProcessor.WithoutIntegration` project, perform the following activities
-* Review the tests in the fixture `ImprovedTranslateCommandHandlerTests` in the `Handlers` folder
+* Read through the tests in the fixture `ImprovedTranslateCommandHandlerTests` in the `Handlers` folder
 * Complete the tests in the fixture `SingleTranslateCommandHandlerTests` in the `Handlers` folder
-* Review the tests in the fixtures in the `Services` folder
+* Read through the tests in the fixtures in the `Services` folder
 
 ### Assignment 2: testing with integration
 
 In the `Tests.QueueProcessor.WithIntegration` project, perform the following activities
-* Review the `AutoDataAttributes.cs` file in the root of the project
-* Review the tests in the fixture `ImprovedTranslateCommandHandlerTests` in the `Handlers` folder
-* Review the tests in the fixture `SingleTranslateCommandHandlerTests` in the `Handlers` folder
+* Read through the `AutoDataAttributes.cs` file in the root of the project
+* Read through the tests in the fixture `ImprovedTranslateCommandHandlerTests` in the `Handlers` folder
+* Read through the tests in the fixture `SingleTranslateCommandHandlerTests` in the `Handlers` folder
 * Complete the tests in the fixtures in the `Services` folder
 
 ### Assignment 3: improving the test suites
